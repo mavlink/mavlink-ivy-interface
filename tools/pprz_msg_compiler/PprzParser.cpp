@@ -1,17 +1,3 @@
-/****************************************************************
-*																*
-*				------ SmartUAV Project ------					*
-*																*
-*	Aerospace Software and Technologies Institue	ASTI		*
-*	Delft Cooperation for Intelligent Systems		DECIS		*
-*	Delft University of Technology					TU Delft	*
-*																*
-*	M. Amelink - C. De Wagter									*
-*																*
-*	$Id: . $
-*																*
-****************************************************************/
-
 #pragma warning( disable : 4018 ) // signed/unsigned mismatch
 #pragma warning( disable : 4786 ) // truncated to 255
 

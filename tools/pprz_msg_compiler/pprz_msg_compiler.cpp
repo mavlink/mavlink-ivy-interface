@@ -29,9 +29,9 @@ int main( int argc, char** argv )
 	char fileName[128];
 
 	std::cout << "Compiling '" << argv[1] << "' " << std::endl;
-	if (fileExists(argv[0]) == 0)
+	if (fileExists(argv[1]) == 0)
 	{
-		std::cout << "File '"  << argv[0] <<  "'does not exist\n";
+		std::cout << "File '"  << argv[1] <<  "'does not exist\n";
 		return 1;
 	}
 	strcpy(fileName,argv[1]);
