@@ -37,6 +37,8 @@ public:
 	static void ecef2utm(double ecef_x, double ecef_y, double ecef_z, double* utm_north, double* utm_east, double *utm_alt, int *utm_zone);
 	static void utm2ecef(double utm_north, double utm_east, double utm_alt, int utm_zone, double *ecef_x, double *ecef_y, double *ecef_z);
 
+	static void utm2llh(double utm_north,double utm_east,double utm_alt, int utm_zone, double *lat,double *lon,double *h);
+
 	void wgs2tgp( double wgs_lat, double wgs_lon, double h, double *tgp_x, double *tgp_y, double *tgp_z);
 	void tgp2wgs(double tgp_x, double tgp_y, double tgp_z,  double* wgs_lat, double* wgs_lon, double* h);
 	void tgp2ecef(double tgp_x, double tgp_y, double tgp_z, double* ecef_x, double* ecef_y, double* ecef_z);	// Perfect Conversion

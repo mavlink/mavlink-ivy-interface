@@ -22,12 +22,14 @@ INCLUDE_DIRECTORIES(
 )
 
 include_directories("${PROJECT_SOURCE_DIR}/../mavlink/include/common")
+include_directories("${math_SOURCE_DIR}")
 
 add_executable (mavlink-ivy-interface ${interface_srcs} ${interface_incl} )
 
 target_link_libraries(mavlink-ivy-interface ${GLIB2_LIBRARY} ${GTHREAD2_LIBRARY} )
 target_link_libraries(mavlink-ivy-interface glibivy)
+target_link_libraries(mavlink-ivy-interface uav_math)
 #target_link_libraries(mavlink-ivy-interface lpcre)
 
 
-add_dependencies(mavlink-ivy-interface interface_parser math) 
+add_dependencies(mavlink-ivy-interface interface_parser uav_math) 

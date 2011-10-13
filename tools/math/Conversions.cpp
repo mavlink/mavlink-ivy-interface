@@ -518,3 +518,14 @@ void Conversions::wgs2tgp( double wgs_lat, double wgs_lon, double h, double *tgp
 	wgs2ecef(lat, lon,h, ecef_x,ecef_y,ecef_z);
 }
 
+/*static*/ void Conversions::utm2llh(double utm_north,double utm_east,double utm_alt, int utm_zone, double *lat,double *lon,double *h)
+{
+	char zone[4] = "31U";
+
+	int RefEllipsoid = 23;//WGS-84. See list with file "llh_utm.cpp" for id numbers
+
+	UTMtoLL(RefEllipsoid, utm_north, utm_east, zone, *lat, *lon);
+	*h = utm_alt;
+}
+
+

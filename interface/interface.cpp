@@ -8,29 +8,82 @@
 
 #include "udp.h"
 #include "interface.h"
+#include "Conversions.h"
 
 float phi, theta, psi;
+double lat,lon,h;
 
+Conversions ecef;
 
-static void on_Attitude(IvyClientPtr app, void *user_data, int argc, char *argv[]){
+static void on_Attitude(IvyClientPtr app, void *user_data, int argc, char *argv[])
+{
   guint ac_id = atoi(argv[0]);
+
   phi = atof(argv[1]);
   theta = atof(argv[3]);
   psi = atof(argv[2]);
+
   printf("ATTITUDE ac=%d phi=%f theta=%f psi=%f\n",ac_id, phi, theta, psi);
 
   udp_send();
 }
 
+static void on_Gps(IvyClientPtr app, void *user_data, int argc, char *argv[])
+{
+  guint ac_id = atoi(argv[0]);
 
-int main ( int argc, char** argv) {
+/*
 
+   <message name="GPS" id="8">
+     <field name="mode"       type="uint8"  unit="byte_mask"/>
+     <field name="utm_east"   type="int32"  unit="cm" alt_unit="m"/>
+     <field name="utm_north"  type="int32"  unit="cm" alt_unit="m"/>
+     <field name="course"     type="int16"  unit="decideg" alt_unit="deg"/>
+     <field name="alt"        type="int32"  unit="mm" alt_unit="m"/>
+     <field name="speed"      type="uint16" unit="cm/s" alt_unit="m/s"/>
+     <field name="climb"      type="int16"  unit="cm/s" alt_unit="m/s"/>
+     <field name="week"       type="uint16" unit="weeks"/>
+     <field name="itow"       type="uint32" unit="ms"/>
+     <field name="utm_zone"   type="uint8"/>
+     <field name="gps_nb_err" type="uint8"/>
+   </message>
+
+*/
+
+  int mode = atoi(argv[0]);
+  double utm_east = ((double)atof(argv[1])) / 100.0;
+  double utm_north = ((double)atof(argv[2])) / 100.0;
+  double utm_z = ((double)atof(argv[3])) / 1000.0;
+  int utm_zone = atoi(argv[9]);
+
+/*
+		driver->miniState_msg->groundspeed = protocol->GPS.pprz_speed;
+		driver->miniState_msg->psi		=  (short) (((float) protocol->GPS.pprz_course) * f_deg2rad * 1000.0f  );
+		driver->miniState_msg->heading	=  (short) (((float) protocol->GPS.pprz_course) * f_deg2rad * 1000.0f  );
+
+		utm_east = ((double) protocol->GPS.pprz_utm_east) / 100.0;
+		utm_north = ((double) protocol->GPS.pprz_utm_north) / 100.0;
+		utm_z = ((double) protocol->GPS.pprz_alt) / 1000.0;
+		utm_zone = protocol->GPS.pprz_utm_zone;
+*/
+		ecef.utm2llh(utm_north,utm_east,utm_z,utm_zone,&lat,&lon,&h);
+
+  printf("GPS ac=%d %f %f %f %d\n",ac_id, lat*57.6, lon*57.6, h, utm_zone);
+
+
+//  udp_send();
+}
+
+
+int main ( int argc, char** argv) 
+{
   udp_init();
 
   GMainLoop *ml =  g_main_loop_new(NULL, FALSE);
 
   IvyInit ("mavlink-ivy-interface", "mavlink-ivy-interface READY", NULL, NULL, NULL, NULL);
   IvyBindMsg(on_Attitude, NULL, "^(\\S*) ATTITUDE (\\S*) (\\S*) (\\S*)");
+  IvyBindMsg(on_Gps, NULL, "^(\\S*) GPS (\\S*) (\\S*) (\\S*) (\\S*) (\\S*) (\\S*) (\\S*) (\\S*) (\\S*) (\\S*) (\\S*)");
 
   IvyStart("127.255.255.255");
   

@@ -101,7 +101,7 @@ int udp_init(void)
 	gcAddr.sin_addr.s_addr = inet_addr(target_ip);
 	gcAddr.sin_port = htons(14550);
 	
-	
+	return 0;
 }
 
 void udp_send()
@@ -109,6 +109,7 @@ void udp_send()
 	mavlink_message_t msg;
 	uint16_t len;
 	float position[6] = {};
+	int lat_i, lon_i, h_i;
 	uint8_t buf[BUFFER_LENGTH];
 	ssize_t recsize;
 	socklen_t fromlen;
@@ -127,10 +128,20 @@ void udp_send()
 		len = mavlink_msg_to_send_buffer(buf, &msg);
 		bytes_sent = sendto(sock, buf, len, 0, (struct sockaddr*)&gcAddr, sizeof (struct sockaddr_in));
 		
-		/* Send Local Position */
+		/* Send Local Position 
 		mavlink_msg_local_position_ned_pack(1, 200, &msg, microsSinceEpoch(), 
 										position[0], position[1], position[2],
 										position[3], position[4], position[5]);
+		len = mavlink_msg_to_send_buffer(buf, &msg);
+		bytes_sent = sendto(sock, buf, len, 0, (struct sockaddr*)&gcAddr, sizeof(struct sockaddr_in));
+		*/
+
+		/* Send Global Position */
+		lat_i = (lat * 57.6  * 1e7);
+		lon_i = (lon * 57.6  * 1e7);
+		h_i = h  * 1000.0;
+		mavlink_msg_global_position_int_pack(1, 200, &msg, microsSinceEpoch(), 
+										lat_i, lon_i, h_i, h_i, 0, 0, 0, 0);
 		len = mavlink_msg_to_send_buffer(buf, &msg);
 		bytes_sent = sendto(sock, buf, len, 0, (struct sockaddr*)&gcAddr, sizeof(struct sockaddr_in));
 		
@@ -162,7 +173,6 @@ void udp_send()
 			printf("\n");
 		}
 		memset(buf, 0, BUFFER_LENGTH);
-		//sleep(1); // Sleep one second
     }
 }
 
