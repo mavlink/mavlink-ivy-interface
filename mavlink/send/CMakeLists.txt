@@ -5,7 +5,7 @@
 project(mavlink-example)
 cmake_minimum_required(VERSION 2.6)
 
-include_directories("${PROJECT_SOURCE_DIR}/../../include/common")
+include_directories("${PROJECT_SOURCE_DIR}/../include/common")
 
 add_executable (mavlink-example "mavlink_udp.c" )
 

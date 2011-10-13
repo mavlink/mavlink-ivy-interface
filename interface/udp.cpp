@@ -53,53 +53,26 @@
 #include <mavlink.h>
 
 
+#include "interface.h"
+
 #define BUFFER_LENGTH 2041 // minimum buffer size that can be used with qnx (I don't know why)
 
 uint64_t microsSinceEpoch();
 
-int main(int argc, char* argv[])
-{
-	
-	char help[] = "--help";
-	
-	
+int sock;
+struct sockaddr_in gcAddr; 
+
+
+
+int udp_init(void)
+{	
 	char target_ip[100];
 	
-	float position[6] = {};
-	int sock = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);
-	struct sockaddr_in gcAddr; 
+	sock = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);
 	struct sockaddr_in locAddr;
-	//struct sockaddr_in fromAddr;
-	uint8_t buf[BUFFER_LENGTH];
-	ssize_t recsize;
-	socklen_t fromlen;
-	int bytes_sent;
-	mavlink_message_t msg;
-	uint16_t len;
-	int i = 0;
-	//int success = 0;
-	unsigned int temp = 0;
-	
-	// Check if --help flag was used
-	if ((argc == 2) && (strcmp(argv[1], help) == 0))
-    {
-		printf("\n");
-		printf("\tUsage:\n\n");
-		printf("\t");
-		printf("%s", argv[0]);
-		printf(" <ip address of QGroundControl>\n");
-		printf("\tDefault for localhost: udp-server 127.0.0.1\n\n");
-		exit(EXIT_FAILURE);
-    }
-	
 	
 	// Change the target ip if parameter was given
-	strcpy(target_ip, "127.0.0.1");
-	if (argc == 2)
-    {
-		strcpy(target_ip, argv[1]);
-    }
-	
+	strcpy(target_ip, "192.168.78.1");
 	
 	memset(&locAddr, 0, sizeof(locAddr));
 	locAddr.sin_family = AF_INET;
@@ -129,10 +102,21 @@ int main(int argc, char* argv[])
 	gcAddr.sin_port = htons(14550);
 	
 	
-	
-	for (;;) 
+}
+
+void udp_send()
+{
+	mavlink_message_t msg;
+	uint16_t len;
+	float position[6] = {};
+	uint8_t buf[BUFFER_LENGTH];
+	ssize_t recsize;
+	socklen_t fromlen;
+	int bytes_sent;
+	int i = 0;
+	unsigned int temp = 0;	
+
     {
-		
 		/*Send Heartbeat */
 		mavlink_msg_heartbeat_pack(1, 200, &msg, MAV_TYPE_HELICOPTER, MAV_AUTOPILOT_GENERIC, MAV_MODE_GUIDED_ARMED, 0, MAV_STATE_ACTIVE);
 		len = mavlink_msg_to_send_buffer(buf, &msg);
@@ -151,7 +135,7 @@ int main(int argc, char* argv[])
 		bytes_sent = sendto(sock, buf, len, 0, (struct sockaddr*)&gcAddr, sizeof(struct sockaddr_in));
 		
 		/* Send attitude */
-		mavlink_msg_attitude_pack(1, 200, &msg, microsSinceEpoch(), 1.2, 1.7, 3.14, 0.01, 0.02, 0.03);
+		mavlink_msg_attitude_pack(1, 200, &msg, microsSinceEpoch(), phi, theta, psi, 0.01, 0.02, 0.03);
 		len = mavlink_msg_to_send_buffer(buf, &msg);
 		bytes_sent = sendto(sock, buf, len, 0, (struct sockaddr*)&gcAddr, sizeof(struct sockaddr_in));
 		
@@ -178,7 +162,7 @@ int main(int argc, char* argv[])
 			printf("\n");
 		}
 		memset(buf, 0, BUFFER_LENGTH);
-		sleep(1); // Sleep one second
+		//sleep(1); // Sleep one second
     }
 }
 

@@ -35,9 +35,13 @@ add_subdirectory (tools/tinyxml)
 add_subdirectory (tools/math)
 add_subdirectory (tools/pprz_msg_compiler)
 
-add_subdirectory (mavlink/examples/linux)
+add_subdirectory (mavlink/send)
 
 add_subdirectory (paparazzi)
+
+add_subdirectory (interface)
+
+
 
 
 
