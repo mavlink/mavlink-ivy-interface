@@ -20,6 +20,18 @@ FOREACH(xml ${pprz_msg_xmls})
                      COMMENT "Building Paparazzi Messages ${xml_h}")
 ENDFOREACH(xml)
 
+#FIND_PACKAGE( GLIB2 REQUIRED )
+
+add_definitions(-Wall  `pkg-config glib-2.0 --cflags`)
+
+#SET(CMAKE_EXE_LINKER_FLAGS " `pkg-config glib-2.0 --libs` -lglibivy -lpcre ")
+#SET(CMAKE_EXE_LINKER_FLAGS "-lglibivy -lpcre" )
+
+#SET(CMAKE_EXE_LINKER_FLAGS "-lglibivy -lpcre -L/usr/lib/i386-linux-gnu -lglib-2.0" )
+
+#target_link_libraries(pprz_reader `pkg-config glib-2.0 --libs` )
+
+
 
 add_executable (pprz_reader ${pprz_msg_srcs} ${pprz_msg_incl} ${pprz_msg_xmls} ${pprz_msg_xml_h} )
 

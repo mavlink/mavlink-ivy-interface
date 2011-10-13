@@ -35,5 +35,7 @@ GLIB_CFLAGS  = -Wall  `pkg-config glib-2.0 --cflags` $(FPIC)
 GLIB_LDFLAGS =  `pkg-config glib-2.0 --libs` -lglibivy -lpcre $(FPIC)
 
 all:
-	$(CC) $(GLIB_CFLAGS) -o c_ivy_client_example_1 c_ivy_client_example_1.c $(GLIB_LDFLAGS)
+	$(CC) $(GLIB_CFLAGS) -o c_ivy_client_example c_ivy_client_example.c $(GLIB_LDFLAGS)
 
+clean:
+	rm c_ivy_client_example
