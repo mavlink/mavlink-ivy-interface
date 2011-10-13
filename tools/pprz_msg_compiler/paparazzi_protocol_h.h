@@ -13,138 +13,138 @@ class paparazzi_protocol_h_tpl_class
 public:
 	paparazzi_protocol_h_tpl_class()
 	{
-		ini = "";
-		struct_ = "";
-		sen = "";
-		to_iv = "";
-		prin = "";
-		iv = "";
-		switche = "";
-		cbfun = "";
-		privda = "";
+		init = "";
+		structs = "";
+		send = "";
+		to_ivy = "";
+		print = "";
+		ivy = "";
+		switcher = "";
+		cbfunc = "";
+		privdat = "";
 		rest = "";
 	}
 	void open(const char* filename){file.open(filename);}
 private:
 	std::ofstream file;
 
-	std::string ini; // block 0: ini
-	std::string struct_; // block 1: struct
-	std::string sen; // block 2: sen
-	std::string to_iv; // block 3: to_iv
-	std::string prin; // block 4: prin
-	std::string iv; // block 5: iv
-	std::string switche; // block 6: switche
-	std::string cbfun; // block 7: cbfun
-	std::string privda; // block 8: privda
+	std::string init; // block 0: init
+	std::string structs; // block 1: structs
+	std::string send; // block 2: send
+	std::string to_ivy; // block 3: to_ivy
+	std::string print; // block 4: print
+	std::string ivy; // block 5: ivy
+	std::string switcher; // block 6: switcher
+	std::string cbfunc; // block 7: cbfunc
+	std::string privdat; // block 8: privdat
 	std::string rest; // block 9: rest
 
 public:
 	void add_init(const char* _txt1, const char* _txt2)
 	{
-		ini.append("		memset(&this->");
-		ini.append(_txt1);
-		ini.append(", 0, sizeof(");
-		ini.append(_txt2);
-		ini.append("_pprz_struct));\n");
+		init.append("		memset(&this->");
+		init.append(_txt1);
+		init.append(", 0, sizeof(");
+		init.append(_txt2);
+		init.append("_pprz_struct));\n\n");
 	};
 	void add_structs(const char* _txt1, const char* _txt2, const char* _txt3)
 	{
-		struct_.append("	struct ");
-		struct_.append(_txt1);
-		struct_.append("_pprz_struct\n	{\n");
-		struct_.append(_txt2);
-		struct_.append("	} ");
-		struct_.append(_txt3);
-		struct_.append("\n#if defined(__GNUC__)\n__attribute__((packed))\n#endif\n;\n\n");
+		structs.append("	struct ");
+		structs.append(_txt1);
+		structs.append("_pprz_struct\n\n	{\n\n");
+		structs.append(_txt2);
+		structs.append("	} ");
+		structs.append(_txt3);
+		structs.append("\n\n#if defined(__GNUC__)\n\n__attribute__((packed))\n\n#endif\n\n;\n\n\n\n");
 	};
 	void add_send(const char* _txt1, const char* _txt2, const int _nr3, const int _nr4)
 	{
-		sen.append("	void send_");
-		sen.append(_txt1);
-		sen.append("() { send( (void*) &this->");
-		sen.append(_txt2);
-		sen.append(", ");
+		send.append("	void send_");
+		send.append(_txt1);
+		send.append("() { send( (void*) &this->");
+		send.append(_txt2);
+		send.append(", ");
 		char tijdelijk[32];
 		sprintf(tijdelijk,"%d",_nr3);
-		sen.append(tijdelijk);
-		sen.append(", ");
+		send.append(tijdelijk);
+		send.append(", ");
 		sprintf(tijdelijk,"%d",_nr4);
-		sen.append(tijdelijk);
-		sen.append(" ); }\n");
+		send.append(tijdelijk);
+		send.append(" ); }\n\n");
 	};
 	void add_to_ivy(const char* _txt1, const char* _txt2, const char* _txt3)
 	{
-		to_iv.append("	std::string ");
-		to_iv.append(_txt1);
-		to_iv.append("_to_ivy()\n	{\n		std::stringstream ivy;\n\n		ivy << this->ac_id <<  \" ");
-		to_iv.append(_txt2);
-		to_iv.append("\";\n");
-		to_iv.append(_txt3);
-		to_iv.append("\n\n		return ivy.str();\n	}\n");
+		to_ivy.append("	std::string ");
+		to_ivy.append(_txt1);
+		to_ivy.append("_to_ivy()\n\n	{\n\n		std::stringstream ivy;\n\n\n\n		ivy << this->ac_id <<  \" ");
+		to_ivy.append(_txt2);
+		to_ivy.append("\";\n\n");
+		to_ivy.append(_txt3);
+		to_ivy.append("\n\n\n\n		return ivy.str();\n\n	}\n\n");
 	};
 	void add_print(const char* _txt1, const char* _txt2, const int _nr3, const char* _txt4)
 	{
-		prin.append("	void print_");
-		prin.append(_txt1);
-		prin.append("()\n	{\n		printf(\"Received msg '%s' (%d)\\n\",\"");
-		prin.append(_txt2);
-		prin.append("\",");
+		print.append("	void print_");
+		print.append(_txt1);
+		print.append("()\n\n	{\n\n		printf(\"Received msg '%s' (%d)\\n\",\"");
+		print.append(_txt2);
+		print.append("\",");
 		char tijdelijk[32];
 		sprintf(tijdelijk,"%d",_nr3);
-		prin.append(tijdelijk);
-		prin.append(");\n");
-		prin.append(_txt4);
-		prin.append("	}\n");
+		print.append(tijdelijk);
+		print.append(");\n\n");
+		print.append(_txt4);
+		print.append("	}\n\n");
 	};
 	void add_ivy(const char* _txt1, const char* _txt2, const char* _txt3, const int _nr4)
 	{
-		iv.append("		if (msg_name.compare(\"");
-		iv.append(_txt1);
-		iv.append("\") == 0)\n		{\n");
-		iv.append(_txt2);
-		iv.append("			print_");
-		iv.append(_txt3);
-		iv.append("();\n			return ");
+		ivy.append("		if (msg_name.compare(\"");
+		ivy.append(_txt1);
+		ivy.append("\") == 0)\n\n		{\n\n");
+		ivy.append(_txt2);
+		ivy.append("			print_");
+		ivy.append(_txt3);
+		ivy.append("();\n\n			return ");
 		char tijdelijk[32];
 		sprintf(tijdelijk,"%d",_nr4);
-		iv.append(tijdelijk);
-		iv.append(";\n		}\n");
+		ivy.append(tijdelijk);
+		ivy.append(";\n\n		}\n\n");
 	};
 	void add_switcher(const int _nr1, const char* _txt2, const char* _txt3, const int _nr4, const char* _txt5)
 	{
-		switche.append("		case ");
+		switcher.append("		case ");
 		char tijdelijk[32];
 		sprintf(tijdelijk,"%d",_nr1);
-		switche.append(tijdelijk);
-		switche.append(":	// ");
-		switche.append(_txt2);
-		switche.append("\n			memcpy(&this->");
-		switche.append(_txt3);
-		switche.append(",&(port->buffer[4]),");
+		switcher.append(tijdelijk);
+		switcher.append(":	// ");
+		switcher.append(_txt2);
+		switcher.append("\n\n			memcpy(&this->");
+		switcher.append(_txt3);
+		switcher.append(",&(port->buffer[4]),");
 		sprintf(tijdelijk,"%d",_nr4);
-		switche.append(tijdelijk);
-		switche.append(");\n			print_");
-		switche.append(_txt5);
-		switche.append("();\n			break;\n");
+		switcher.append(tijdelijk);
+		switcher.append(");\n\n			print_");
+		switcher.append(_txt5);
+		switcher.append("();\n\n			break;\n\n");
 	};
 	void add_cbfunc(const char* _txt1, const char* _txt2, const char* _txt3)
 	{
-		cbfun.append("	inline void ");
-		cbfun.append(_txt1);
-		cbfun.append("_set_interrupt(Cb_Class *_inst, void (Cb_Class::*f) (void*))\n	{\n		");
-		cbfun.append(_txt2);
-		cbfun.append("_Instance = _inst; ");
-		cbfun.append(_txt3);
-		cbfun.append("_func_p = f;\n	}\n");
+		cbfunc.append("	inline void ");
+		cbfunc.append(_txt1);
+		cbfunc.append("_set_interrupt(Cb_Class *_inst, void (Cb_Class::*f) (void*))\n\n	{\n\n		");
+		cbfunc.append(_txt2);
+		cbfunc.append("_Instance = _inst; ");
+		cbfunc.append(_txt3);
+		cbfunc.append("_func_p = f;\n\n	}\n\n");
 	};
 	void add_privdat(const char* _txt1, const char* _txt2)
 	{
-		privda.append("	void (Cb_Class::*");
-		privda.append(_txt1);
-		privda.append("_func_p) (void*);\n	Cb_Class *");
-		privda.append(_txt2);
-		privda.append("_Instance;\n");
+		privdat.append("	void (Cb_Class::*");
+		privdat.append(_txt1);
+		privdat.append("_func_p) (void*);\n\n	Cb_Class *");
+		privdat.append(_txt2);
+		privdat.append("_Instance;\n\n");
 	};
 public:
 	void commit()
@@ -158,259 +158,497 @@ public:
 		file << asctime( localtime( &aclock ) );
 		file << "\n*/\n\n";
 		file <<	"/****************************************************************\n"
+				"\n"
 				"*\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t*\n"
+				"\n"
 				"*\t\t\t\t------ SmartUAV Project ------\t\t\t\t\t*\n"
+				"\n"
 				"*\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t*\n"
+				"\n"
 				"*\tAerospace Software and Technologies Institue\tASTI\t\t*\n"
+				"\n"
 				"*\tDelft Cooperation for Intelligent Systems\t\tDECIS\t\t*\n"
+				"\n"
 				"*\tDelft University of Technology\t\t\t\t\tTU Delft\t*\n"
+				"\n"
 				"*\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t*\n"
+				"\n"
 				"*\tM. Amelink - C. De Wagter\t\t\t\t\t\t\t\t\t*\n"
+				"\n"
 				"*\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t*\n"
+				"\n"
 				"*\t$Id: paparazzi_protocol_h.tpl $\n"
+				"\n"
 				"*\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t*\n"
+				"\n"
 				"****************************************************************/\n"
 				"\n"
+				"\n"
+				"\n"
 				"// Includes\n"
+				"\n"
 				"#ifndef __MY_PAPARAZZI_PROTOCOL_HEADER__\n"
+				"\n"
 				"#define __MY_PAPARAZZI_PROTOCOL_HEADER__\n"
 				"\n"
+				"\n"
+				"\n"
 				"#include \"Fdc.h\"\n"
+				"\n"
 				"#include \"MyStdLib.h\"\n"
 				"\n"
+				"\n"
+				"\n"
 				"#include <string>\n"
+				"\n"
 				"#include <sstream>\n"
+				"\n"
 				"#include <iterator>\n"
+				"\n"
 				"#include <vector>\n"
+				"\n"
 				"// included for itoa\n"
+				"\n"
 				"#include <stdio.h>\n"
+				"\n"
 				"#include <stdlib.h>\n"
 				"\n"
+				"\n"
+				"\n"
 				"#if defined(WIN32)\n"
+				"\n"
 				"#pragma pack(push)\n"
+				"\n"
 				"#pragma pack(1)\n"
+				"\n"
 				"#endif\n"
+				"\n"
+				"\n"
 				"\n"
 				"#ifdef DEBUG\n"
+				"\n"
 				"#undef DEBUG\n"
+				"\n"
 				"#define DEBUG DEBUK\n"
+				"\n"
 				"#endif\n"
 				"\n"
+				"\n"
+				"\n"
 				"template <class Cb_Class>\n"
+				"\n"
 				"class paparazzi_protocol\n"
+				"\n"
 				"{\n"
+				"\n"
 				"public:\n"
+				"\n"
+				"\n"
 				"\n"
 				"\tpaparazzi_protocol(struct Fdc* s)\n"
+				"\n"
 				"\t{\n"
+				"\n"
 				"";
-		file <<	ini;
+		file <<	init;
 		file <<	"\t\tport = s;\n"
+				"\n"
 				"\t}\n"
 				"\n"
-				"";
-		file <<	struct_;
-		file <<	"\n"
-				"public:\n"
-				"";
-		file <<	sen;
-		file <<	"\n"
+				"\n"
 				"\n"
 				"";
-		file <<	to_iv;
+		file <<	structs;
 		file <<	"\n"
+				"\n"
+				"public:\n"
+				"\n"
+				"";
+		file <<	send;
+		file <<	"\n"
+				"\n"
+				"\n"
+				"\n"
+				"";
+		file <<	to_ivy;
+		file <<	"\n"
+				"\n"
 				"\tvoid split(const std::string input, std::vector<std::string> &results)\n"
+				"\n"
 				"\t{\n"
+				"\n"
 				"\t\tconst string& delimiter = \" \";\n"
+				"\n"
 				"\t\tconst bool includeEmpties = true;\n"
 				"\n"
+				"\n"
+				"\n"
 				"\t\tint iPos = 0;\n"
+				"\n"
 				"\t\tint newPos = -1;\n"
+				"\n"
 				"\t\tint sizeS2 = (int)delimiter.size();\n"
+				"\n"
 				"\t\tint isize = (int)input.size();\n"
 				"\n"
+				"\n"
+				"\n"
 				"\t\tif( \n"
+				"\n"
 				"\t\t\t( isize == 0 )\n"
+				"\n"
 				"\t\t\t||\n"
+				"\n"
 				"\t\t\t( sizeS2 == 0 )\n"
+				"\n"
 				"\t\t)\n"
+				"\n"
 				"\t\t{\n"
+				"\n"
 				"\t\t\treturn;\n"
+				"\n"
 				"\t\t}\n"
+				"\n"
+				"\n"
 				"\n"
 				"\t\tvector<int> positions;\n"
 				"\n"
+				"\n"
+				"\n"
 				"\t\tnewPos = input.find (delimiter, 0);\n"
 				"\n"
+				"\n"
+				"\n"
 				"\t\tif( newPos < 0 )\n"
+				"\n"
 				"\t\t{ \n"
+				"\n"
 				"\t\t\treturn; \n"
+				"\n"
 				"\t\t}\n"
+				"\n"
+				"\n"
 				"\n"
 				"\t\tint numFound = 0;\n"
 				"\n"
+				"\n"
+				"\n"
 				"\t\twhile( newPos >= iPos )\n"
+				"\n"
 				"\t\t{\n"
+				"\n"
 				"\t\t\tnumFound++;\n"
+				"\n"
 				"\t\t\tpositions.push_back(newPos);\n"
+				"\n"
 				"\t\t\tiPos = newPos;\n"
+				"\n"
 				"\t\t\tnewPos = input.find (delimiter, iPos+sizeS2);\n"
+				"\n"
 				"\t\t}\n"
+				"\n"
+				"\n"
 				"\n"
 				"\t\tif( numFound == 0 )\n"
+				"\n"
 				"\t\t{\n"
+				"\n"
 				"\t\t\treturn;\n"
+				"\n"
 				"\t\t}\n"
+				"\n"
+				"\n"
 				"\n"
 				"\t\tfor( int i=0; i <= (int)positions.size(); ++i )\n"
+				"\n"
 				"\t\t{\n"
+				"\n"
 				"\t\t\tstring s(\"\");\n"
+				"\n"
 				"\t\t\tif( i == 0 ) \n"
+				"\n"
 				"\t\t\t{ \n"
+				"\n"
 				"\t\t\t\ts = input.substr( i, positions[i] ); \n"
+				"\n"
 				"\t\t\t}\n"
+				"\n"
 				"\t\t\tint offset = positions[i-1] + sizeS2;\n"
+				"\n"
 				"\t\t\tif( offset < isize )\n"
+				"\n"
 				"\t\t\t{\n"
+				"\n"
 				"\t\t\t\tif( i == positions.size() )\n"
+				"\n"
 				"\t\t\t\t{\n"
+				"\n"
 				"\t\t\t\t\ts = input.substr(offset);\n"
+				"\n"
 				"\t\t\t\t}\n"
+				"\n"
 				"\t\t\t\telse if( i > 0 )\n"
+				"\n"
 				"\t\t\t\t{\n"
+				"\n"
 				"\t\t\t\t\ts = input.substr( positions[i-1] + sizeS2, \n"
+				"\n"
 				"\t\t\t\t\t\t  positions[i] - positions[i-1] - sizeS2 );\n"
+				"\n"
 				"\t\t\t\t}\n"
+				"\n"
 				"\t\t\t}\n"
+				"\n"
 				"\t\t\tif( includeEmpties || ( s.size() > 0 ) )\n"
+				"\n"
 				"\t\t\t{\n"
+				"\n"
 				"\t\t\t\tresults.push_back(s);\n"
+				"\n"
 				"\t\t\t}\n"
+				"\n"
 				"\t\t}\n"
+				"\n"
 				"\t\treturn;\n"
+				"\n"
 				"\t}\n"
 				"\n"
+				"\n"
+				"\n"
 				"";
-		file <<	prin;
+		file <<	print;
 		file <<	"\n"
+				"\n"
+				"\n"
+				"\n"
 				"\n"
 				"\n"
 				"\tint ivy_decode(const char* _msg)\n"
+				"\n"
 				"\t{\n"
+				"\n"
 				"\t\tstd::stringstream vals;\n"
+				"\n"
 				"\t\tvals.str(_msg);\n"
+				"\n"
 				"\t\tstd::string msg_name;\n"
+				"\n"
 				"\t\tstd::vector<std::string> msg;\n"
+				"\n"
 				"\t\tsplit(_msg, msg);\n"
 				"\n"
+				"\n"
+				"\n"
 				"\t\tif (msg.size() < 2)\n"
+				"\n"
 				"\t\t{\t\n"
+				"\n"
 				"\t\t\tE_printf(\"Msg Error: too short\\n\");\n"
+				"\n"
 				"\t\t\treturn -1;\n"
+				"\n"
 				"\t\t}\n"
+				"\n"
+				"\n"
 				"\n"
 				"\t\tvals >> this->ac_id;\n"
+				"\n"
 				"\t\tvals >> msg_name;\n"
 				"\n"
+				"\n"
+				"\n"
 				"";
-		file <<	iv;
+		file <<	ivy;
 		file <<	"\t\treturn -2;\n"
+				"\n"
 				"\t}\n"
+				"\n"
+				"\n"
 				"\n"
 				"\tint receive()\n"
+				"\n"
 				"\t{\n"
+				"\n"
 				"\t\t// Read\n"
+				"\n"
 				"\t\tfdcRead(port);\n"
 				"\n"
+				"\n"
+				"\n"
 				"\t\t// Search for start-byte\n"
+				"\n"
 				"\t\twhile ( (port->bytesread > 0) &&\n"
+				"\n"
 				"\t\t\t\t(port->buffer[0] != 0x99) )\n"
+				"\n"
 				"\t\t{\n"
+				"\n"
 				"\t\t\tfdcBufCrop(port,1);\n"
+				"\n"
 				"\t\t}\n"
+				"\n"
+				"\n"
 				"\n"
 				"\t\t// Check Length\n"
+				"\n"
 				"\t\tint l = (unsigned char) port->buffer[1]-4;\n"
+				"\n"
 				"\t\tif ((int)port->bytesread < (l+4))\n"
+				"\n"
 				"\t\t\treturn 0;\n"
 				"\n"
+				"\n"
+				"\n"
 				"\t\t// Verify Checksum\n"
+				"\n"
 				"\t\tunsigned char ck_a;\n"
+				"\n"
 				"\t\tunsigned char ck_b;\n"
+				"\n"
 				"\t\tck_a = port->buffer[1];\n"
+				"\n"
 				"\t\tck_b = port->buffer[1];\n"
+				"\n"
 				"\t\tfor (int i=0;i<l;i++)\n"
+				"\n"
 				"\t\t{\n"
+				"\n"
 				"\t\t\tck_a += port->buffer[2+i];\n"
+				"\n"
 				"\t\t\tck_b += ck_a;\n"
+				"\n"
 				"\t\t}\n"
+				"\n"
 				"\t\tif ((port->buffer[2+l] != ck_a) ||\n"
+				"\n"
 				"\t\t\t(port->buffer[3+l] != ck_b))\n"
+				"\n"
 				"\t\t{\t\n"
+				"\n"
 				"\t\t\tE_printf(\"Decoding Checksum Error\\n\");\n"
+				"\n"
 				"\t\t\tE_printf(\"CK: %X %X %X %X \\n\",ck_a,ck_b,port->buffer[2+l],port->buffer[3+l]);\n"
+				"\n"
 				"\t\t\t//fdcBufCrop(port,l+4);\n"
+				"\n"
 				"\t\t\t//return -1;\n"
+				"\n"
 				"\t\t}\n"
+				"\n"
+				"\n"
 				"\n"
 				"\t\tac_id = port->buffer[2];\n"
+				"\n"
 				"\t\tint msgid = port->buffer[3];\n"
+				"\n"
 				"\t\tswitch (msgid)\n"
+				"\n"
 				"\t\t{\n"
+				"\n"
 				"";
-		file <<	switche;
+		file <<	switcher;
 		file <<	"\t\t}\n"
+				"\n"
 				"\t\tfdcBufCrop(port,l+4);\n"
+				"\n"
 				"\t\treturn msgid;\n"
+				"\n"
 				"\t}\n"
 				"\n"
+				"\n"
+				"\n"
 				"private:\n"
+				"\n"
 				"\tvoid send(void *p, unsigned char t, int len)\n"
+				"\n"
 				"\t{\n"
+				"\n"
 				"\t\tunsigned char cs_a, cs_b;\n"
 				"\n"
+				"\n"
+				"\n"
 				"\t\tcs_a = (unsigned char) (len+2);\n"
+				"\n"
 				"\t\tcs_b = cs_a;\n"
 				"\n"
+				"\n"
+				"\n"
 				"\t\tbuff[0] = 0x99;\n"
+				"\n"
 				"\t\tbuff[1] = cs_a;\n"
+				"\n"
 				"\t\tbuff[2] = ac_id;\n"
+				"\n"
 				"\t\tbuff[3] = t;\n"
+				"\n"
+				"\n"
 				"\n"
 				"\t\tmemcpy(&(buff[4]),p, len);\n"
 				"\n"
+				"\n"
+				"\n"
 				"\t\tfor (int i=0;i<(len+2);i++)\n"
+				"\n"
 				"\t\t{\n"
+				"\n"
 				"\t\t\tcs_a += buff[2+len];\n"
+				"\n"
 				"\t\t\tcs_b += cs_a;\n"
+				"\n"
 				"\t\t}\n"
 				"\n"
+				"\n"
+				"\n"
 				"\t\tbuff[4+len] = cs_a;\n"
+				"\n"
 				"\t\tbuff[5+len] = cs_b;\n"
 				"\n"
+				"\n"
+				"\n"
 				"\t\tfdcWrite(port,(char*)buff,len+6);\n"
+				"\n"
 				"\t}\n"
 				"\n"
+				"\n"
+				"\n"
 				"public:\n"
+				"\n"
 				"\tint ac_id;\n"
 				"\n"
-				"";
-		file <<	cbfun;
-		file <<	"\n"
-				"private:\n"
-				"\tstruct Fdc* port;\n"
-				"\tunsigned char buff[264];\n"
+				"\n"
 				"\n"
 				"";
-		file <<	privda;
+		file <<	cbfunc;
 		file <<	"\n"
+				"\n"
+				"private:\n"
+				"\n"
+				"\tstruct Fdc* port;\n"
+				"\n"
+				"\tunsigned char buff[264];\n"
+				"\n"
+				"\n"
+				"\n"
+				"";
+		file <<	privdat;
+		file <<	"\n"
+				"\n"
+				"\n"
+				"\n"
 				"\n"
 				"\n"
 				"};\n"
 				"\n"
+				"\n"
+				"\n"
 				"#if defined(WIN32)\n"
+				"\n"
 				"#pragma pack(pop)\n"
+				"\n"
 				"#endif\n"
+				"\n"
+				"\n"
+				"\n"
 				"\n"
 				"\n"
 				"#endif\n"
