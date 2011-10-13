@@ -1,0 +1,11 @@
+=== MavLink <-> Paparazzi IVY interface ===
+
+-needs ivy
+-needs glib2
+-needs cmake
+
+make
+./build/interface/mavlink-ivy-interface
+
+
+
