@@ -32,6 +32,7 @@ endif(WIN32)
 
 add_subdirectory (tools/templater)
 add_subdirectory (tools/tinyxml)
+add_subdirectory (tools/math)
 add_subdirectory (tools/pprz_msg_compiler)
 
 add_subdirectory (paparazzi)

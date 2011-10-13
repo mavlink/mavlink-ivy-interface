@@ -1,3 +1,4 @@
 build/
 tools/pprz_msg_compiler/paparazzi_protocol_h.h
+paparazzi/ivy/c_ivy_client_example
 
