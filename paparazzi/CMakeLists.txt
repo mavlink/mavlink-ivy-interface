@@ -32,13 +32,11 @@ INCLUDE_DIRECTORIES(
   ${GTHREAD2_MAIN_INCLUDE_DIR}
 )
 
-#SET(CMAKE_EXE_LINKER_FLAGS " `pkg-config glib-2.0 --libs` -lglibivy -lpcre ")
-
 add_executable (pprz_reader ${pprz_msg_srcs} ${pprz_msg_incl} ${pprz_msg_xmls} ${pprz_msg_xml_h} )
 
 target_link_libraries(pprz_reader ${GLIB2_LIBRARY} ${GTHREAD2_LIBRARY} )
-
-SET(CMAKE_EXE_LINKER_FLAGS "-lglibivy -lpcre -glib2" )
+target_link_libraries(pprz_reader glibivy)
+#target_link_libraries(pprz_reader lpcre)
 
 
 add_dependencies(pprz_reader pprz_msg_parser) 
