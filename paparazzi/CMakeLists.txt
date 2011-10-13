@@ -26,18 +26,19 @@ FIND_PACKAGE( GLIB2 REQUIRED )
 
 add_definitions(-Wall )
 
-#include_directories("${GLIB2_INCLUDE_DIRS}")
-
-add_definitions(  `pkg-config glib-2.0 --cflags`)
+INCLUDE_DIRECTORIES(
+  ${GLIB2_MAIN_INCLUDE_DIR}
+  ${GLIB2_INTERNAL_INCLUDE_DIR}
+  ${GTHREAD2_MAIN_INCLUDE_DIR}
+)
 
 #SET(CMAKE_EXE_LINKER_FLAGS " `pkg-config glib-2.0 --libs` -lglibivy -lpcre ")
 
+add_executable (pprz_reader ${pprz_msg_srcs} ${pprz_msg_incl} ${pprz_msg_xmls} ${pprz_msg_xml_h} )
+
+target_link_libraries(pprz_reader ${GLIB2_LIBRARY} ${GTHREAD2_LIBRARY} )
+
 SET(CMAKE_EXE_LINKER_FLAGS "-lglibivy -lpcre -glib2" )
 
-target_link_libraries(pprz_reader ${GLIB2_LIBRARIES} )
-
-
-
-add_executable (pprz_reader ${pprz_msg_srcs} ${pprz_msg_incl} ${pprz_msg_xmls} ${pprz_msg_xml_h} )
 
 add_dependencies(pprz_reader pprz_msg_parser) 
