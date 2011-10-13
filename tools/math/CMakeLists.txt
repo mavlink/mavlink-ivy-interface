@@ -5,5 +5,5 @@
 project(math)
 cmake_minimum_required(VERSION 2.6)
 
-add_library (math "Conversions.cpp" )
+add_library (math "Conversions.cpp" "gps_time.cpp" "./llh_utm/llh_utm.cpp" )
 
