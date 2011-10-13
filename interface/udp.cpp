@@ -137,8 +137,8 @@ void udp_send()
 		*/
 
 		/* Send Global Position */
-		lat_i = (lat * 57.6  * 1e7);
-		lon_i = (lon * 57.6  * 1e7);
+		lat_i = (lat * 1e7);
+		lon_i = (lon * 1e7);
 		h_i = h  * 1000.0;
 		mavlink_msg_global_position_int_pack(1, 200, &msg, microsSinceEpoch(), 
 										lat_i, lon_i, h_i, h_i, 0, 0, 0, 0);

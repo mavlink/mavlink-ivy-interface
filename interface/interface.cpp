@@ -50,11 +50,11 @@ static void on_Gps(IvyClientPtr app, void *user_data, int argc, char *argv[])
 
 */
 
-  int mode = atoi(argv[0]);
-  double utm_east = ((double)atof(argv[1])) / 100.0;
-  double utm_north = ((double)atof(argv[2])) / 100.0;
-  double utm_z = ((double)atof(argv[3])) / 1000.0;
-  int utm_zone = atoi(argv[9]);
+  int mode = atoi(argv[1]);
+  double utm_east = ((double)atof(argv[2])) / 100.0;
+  double utm_north = ((double)atof(argv[3])) / 100.0;
+  double utm_z = ((double)atof(argv[5])) / 1000.0;
+  int utm_zone = atoi(argv[10]);
 
 /*
 		driver->miniState_msg->groundspeed = protocol->GPS.pprz_speed;
@@ -68,7 +68,7 @@ static void on_Gps(IvyClientPtr app, void *user_data, int argc, char *argv[])
 */
 		ecef.utm2llh(utm_north,utm_east,utm_z,utm_zone,&lat,&lon,&h);
 
-  printf("GPS ac=%d %f %f %f %d\n",ac_id, lat*57.6, lon*57.6, h, utm_zone);
+  printf("GPS ac=%d %f %f %f %d\n",ac_id, lat, lon, h, utm_zone);
 
 
 //  udp_send();
