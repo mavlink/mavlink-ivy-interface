@@ -25,7 +25,7 @@ static void on_Attitude(IvyClientPtr app, void *user_data, int argc, char *argv[
 
   printf("ATTITUDE ac=%d phi=%f theta=%f psi=%f\n",ac_id, phi, theta, psi);
 
-  udp_send();
+  udp_send(ac_id);
 }
 
 static void on_Gps(IvyClientPtr app, void *user_data, int argc, char *argv[])
@@ -50,7 +50,7 @@ static void on_Gps(IvyClientPtr app, void *user_data, int argc, char *argv[])
 
 */
 
-  int mode = atoi(argv[1]);
+  // int mode = atoi(argv[1]);
   double utm_east = ((double)atof(argv[2])) / 100.0;
   double utm_north = ((double)atof(argv[3])) / 100.0;
   double utm_z = ((double)atof(argv[5])) / 1000.0;

@@ -104,11 +104,11 @@ int udp_init(void)
 	return 0;
 }
 
-void udp_send()
+void udp_send(int ac_id)
 {
 	mavlink_message_t msg;
 	uint16_t len;
-	float position[6] = {};
+	// float position[6] = {};
 	int lat_i, lon_i, h_i;
 	uint8_t buf[BUFFER_LENGTH];
 	ssize_t recsize;
@@ -119,17 +119,17 @@ void udp_send()
 
     {
 		/*Send Heartbeat */
-		mavlink_msg_heartbeat_pack(1, 200, &msg, MAV_TYPE_HELICOPTER, MAV_AUTOPILOT_GENERIC, MAV_MODE_GUIDED_ARMED, 0, MAV_STATE_ACTIVE);
+		mavlink_msg_heartbeat_pack(ac_id, 200, &msg, MAV_TYPE_HELICOPTER, MAV_AUTOPILOT_GENERIC, MAV_MODE_GUIDED_ARMED, 0, MAV_STATE_ACTIVE);
 		len = mavlink_msg_to_send_buffer(buf, &msg);
 		bytes_sent = sendto(sock, buf, len, 0, (struct sockaddr*)&gcAddr, sizeof(struct sockaddr_in));
 		
 		/* Send Status */
-		mavlink_msg_sys_status_pack(1, 200, &msg, 0, 0, 0, 500, 11000, -1, -1, 0, 0, 0, 0, 0, 0);
+		mavlink_msg_sys_status_pack(ac_id, 200, &msg, 0, 0, 0, 500, 11000, -1, -1, 0, 0, 0, 0, 0, 0);
 		len = mavlink_msg_to_send_buffer(buf, &msg);
 		bytes_sent = sendto(sock, buf, len, 0, (struct sockaddr*)&gcAddr, sizeof (struct sockaddr_in));
 		
 		/* Send Local Position 
-		mavlink_msg_local_position_ned_pack(1, 200, &msg, microsSinceEpoch(), 
+		mavlink_msg_local_position_ned_pack(ac_id, 200, &msg, microsSinceEpoch(), 
 										position[0], position[1], position[2],
 										position[3], position[4], position[5]);
 		len = mavlink_msg_to_send_buffer(buf, &msg);
@@ -140,13 +140,13 @@ void udp_send()
 		lat_i = (lat * 1e7);
 		lon_i = (lon * 1e7);
 		h_i = h  * 1000.0;
-		mavlink_msg_global_position_int_pack(1, 200, &msg, microsSinceEpoch(), 
+		mavlink_msg_global_position_int_pack(ac_id, 200, &msg, microsSinceEpoch(), 
 										lat_i, lon_i, h_i, h_i, 0, 0, 0, 0);
 		len = mavlink_msg_to_send_buffer(buf, &msg);
 		bytes_sent = sendto(sock, buf, len, 0, (struct sockaddr*)&gcAddr, sizeof(struct sockaddr_in));
 		
 		/* Send attitude */
-		mavlink_msg_attitude_pack(1, 200, &msg, microsSinceEpoch(), phi, theta, psi, 0.01, 0.02, 0.03);
+		mavlink_msg_attitude_pack(ac_id, 200, &msg, microsSinceEpoch(), phi, theta, psi, 0.01, 0.02, 0.03);
 		len = mavlink_msg_to_send_buffer(buf, &msg);
 		bytes_sent = sendto(sock, buf, len, 0, (struct sockaddr*)&gcAddr, sizeof(struct sockaddr_in));
 		
