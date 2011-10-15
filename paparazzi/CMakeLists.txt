@@ -29,9 +29,6 @@ FIND_PACKAGE( IVY REQUIRED )
 add_definitions(-Wall )
 
 INCLUDE_DIRECTORIES(
-  /usr/include
-  /usr/local/include
-  /opt/local/include
   ${IVY_INCLUDE_DIR}
   ${GLIBIVY_INCLUDE_DIR}
   ${GLIB2_MAIN_INCLUDE_DIR}

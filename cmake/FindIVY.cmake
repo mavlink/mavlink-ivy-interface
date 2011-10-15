@@ -1,15 +1,15 @@
 INCLUDE(FindPackageHandleStandardArgs)
 
 SET(IVY_IncludeSearchPaths
-  /usr/include/Ivy/
-  /usr/local/include/Ivy/
-  /opt/local/include/Ivy/
+  /usr/include/
+  /usr/local/include/
+  /opt/local/include/
 )
 
 SET(GLIBIVY_IncludeSearchPaths
-  /usr/include/Ivy/
-  /usr/local/include/Ivy/
-  /opt/local/include/Ivy/
+  /usr/include/
+  /usr/local/include/
+  /opt/local/include/
 )
 
 SET(IVY_LibrarySearchPaths
@@ -18,7 +18,7 @@ SET(IVY_LibrarySearchPaths
   /opt/local/lib/
 )
 
-FIND_PATH(IVY_INCLUDE_DIR ivy.h
+FIND_PATH(IVY_INCLUDE_DIR Ivy/ivy.h
   PATHS ${IVY_IncludeSearchPaths}
 )
 FIND_LIBRARY(IVY_LIBRARY_OPTIMIZED
@@ -26,7 +26,7 @@ FIND_LIBRARY(IVY_LIBRARY_OPTIMIZED
   PATHS ${IVY_LibrarySearchPaths}
 )
 
-FIND_PATH(GLIBIVY_INCLUDE_DIR ivyglibloop.h
+FIND_PATH(GLIBIVY_INCLUDE_DIR Ivy/ivyglibloop.h
   PATHS ${GLIBIVY_IncludeSearchPaths}
 )
 FIND_LIBRARY(GLIBIVY_LIBRARY_OPTIMIZED

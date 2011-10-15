@@ -18,9 +18,6 @@ FIND_PACKAGE( IVY REQUIRED )
 add_definitions(-Wall )
 
 INCLUDE_DIRECTORIES(
-  /usr/include
-  /usr/local/include
-  /opt/local/include
   ${GLIB2_MAIN_INCLUDE_DIR}
   ${GLIB2_INTERNAL_INCLUDE_DIR}
   ${GTHREAD2_MAIN_INCLUDE_DIR}
