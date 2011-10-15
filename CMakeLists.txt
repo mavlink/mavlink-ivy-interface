@@ -30,6 +30,13 @@ else()
    add_definitions(-Wno-write-strings)
 endif(WIN32)
 
+SET(CMAKE_MODULE_PATH cmake)
+
+FIND_PACKAGE(MAVLINK   REQUIRED)
+FIND_PACKAGE(IVY       REQUIRED)
+FIND_PACKAGE(GLIB2     REQUIRED)
+FIND_PACKAGE(GTHREAD2  REQUIRED)
+
 add_subdirectory (tools/templater)
 add_subdirectory (tools/tinyxml)
 add_subdirectory (tools/math)

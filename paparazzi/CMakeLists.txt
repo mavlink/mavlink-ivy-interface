@@ -20,13 +20,20 @@ FOREACH(xml ${pprz_msg_xmls})
                      COMMENT "Building Paparazzi Messages ${xml_h}")
 ENDFOREACH(xml)
 
-set( CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/.." )
+set( CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/../cmake" )
 
 FIND_PACKAGE( GLIB2 REQUIRED )
+FIND_PACKAGE( GTHREAD2 REQUIRED )
+FIND_PACKAGE( IVY REQUIRED )
 
 add_definitions(-Wall )
 
 INCLUDE_DIRECTORIES(
+  /usr/include
+  /usr/local/include
+  /opt/local/include
+  ${IVY_INCLUDE_DIR}
+  ${GLIBIVY_INCLUDE_DIR}
   ${GLIB2_MAIN_INCLUDE_DIR}
   ${GLIB2_INTERNAL_INCLUDE_DIR}
   ${GTHREAD2_MAIN_INCLUDE_DIR}
@@ -34,8 +41,7 @@ INCLUDE_DIRECTORIES(
 
 add_executable (pprz_reader ${pprz_msg_srcs} ${pprz_msg_incl} ${pprz_msg_xmls} ${pprz_msg_xml_h} )
 
-target_link_libraries(pprz_reader ${GLIB2_LIBRARY} ${GTHREAD2_LIBRARY} )
-target_link_libraries(pprz_reader glibivy)
+target_link_libraries(pprz_reader ${GLIB2_LIBRARY} ${GTHREAD2_LIBRARY} ${IVY_LIBRARY_OPTIMIZED} ${GLIBIVY_LIBRARY_OPTIMIZED} )
 #target_link_libraries(pprz_reader lpcre)
 
 
