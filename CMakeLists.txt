@@ -30,7 +30,7 @@ else()
    add_definitions(-Wno-write-strings)
 endif(WIN32)
 
-SET(CMAKE_MODULE_PATH cmake)
+set( CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" )
 
 FIND_PACKAGE(MAVLINK   REQUIRED)
 FIND_PACKAGE(IVY       REQUIRED)
