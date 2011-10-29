@@ -33,7 +33,7 @@ include_directories("${uav_math_SOURCE_DIR}")
 
 add_executable (mavlink-ivy-interface ${interface_srcs} ${interface_incl} )
 
-target_link_libraries(mavlink-ivy-interface ${GLIB2_LIBRARY} ${GTHREAD2_LIBRARY} ${IVY_LIBRARY_OPTIMIZED} ${GLIBIVY_LIBRARY_OPTIMIZED} )
+target_link_libraries(mavlink-ivy-interface ${GLIB2_LIBRARY} ${GTHREAD2_LIBRARY} ${GLIBIVY_LIBRARY_OPTIMIZED} )
 target_link_libraries(mavlink-ivy-interface uav_math)
 #target_link_libraries(mavlink-ivy-interface lpcre)
 
