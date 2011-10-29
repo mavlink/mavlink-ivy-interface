@@ -4,7 +4,6 @@
 
 #include <Ivy/ivy.h>
 #include <Ivy/ivyglibloop.h>
-#include <Ivy/ivyloop.h>
 
 
 #include "udp.h"
@@ -80,7 +79,7 @@ int main ( int argc, char** argv)
 {
   udp_init();
 
-  //GMainLoop *ml =  g_main_loop_new(NULL, FALSE);
+  GMainLoop *ml =  g_main_loop_new(NULL, FALSE);
 
   IvyInit ("mavlink-ivy-interface", "mavlink-ivy-interface READY", NULL, NULL, NULL, NULL);
   IvyBindMsg(on_Attitude, NULL, "^(\\S*) ATTITUDE (\\S*) (\\S*) (\\S*)");
@@ -88,8 +87,7 @@ int main ( int argc, char** argv)
 
   IvyStart("127.255.255.255");
 
-  //g_main_loop_run(ml);
-  IvyMainLoop ();
+  g_main_loop_run(ml);
 
   return 0;
 }
