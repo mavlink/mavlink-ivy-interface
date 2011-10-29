@@ -57,16 +57,16 @@ static void on_Gps(IvyClientPtr app, void *user_data, int argc, char *argv[])
   int utm_zone = atoi(argv[10]);
 
 /*
-		driver->miniState_msg->groundspeed = protocol->GPS.pprz_speed;
-		driver->miniState_msg->psi		=  (short) (((float) protocol->GPS.pprz_course) * f_deg2rad * 1000.0f  );
-		driver->miniState_msg->heading	=  (short) (((float) protocol->GPS.pprz_course) * f_deg2rad * 1000.0f  );
+        driver->miniState_msg->groundspeed = protocol->GPS.pprz_speed;
+        driver->miniState_msg->psi		=  (short) (((float) protocol->GPS.pprz_course) * f_deg2rad * 1000.0f  );
+        driver->miniState_msg->heading	=  (short) (((float) protocol->GPS.pprz_course) * f_deg2rad * 1000.0f  );
 
-		utm_east = ((double) protocol->GPS.pprz_utm_east) / 100.0;
-		utm_north = ((double) protocol->GPS.pprz_utm_north) / 100.0;
-		utm_z = ((double) protocol->GPS.pprz_alt) / 1000.0;
-		utm_zone = protocol->GPS.pprz_utm_zone;
+        utm_east = ((double) protocol->GPS.pprz_utm_east) / 100.0;
+        utm_north = ((double) protocol->GPS.pprz_utm_north) / 100.0;
+        utm_z = ((double) protocol->GPS.pprz_alt) / 1000.0;
+        utm_zone = protocol->GPS.pprz_utm_zone;
 */
-		ecef.utm2llh(utm_north,utm_east,utm_z,utm_zone,&lat,&lon,&h);
+        ecef.utm2llh(utm_north,utm_east,utm_z,utm_zone,&lat,&lon,&h);
 
   printf("GPS ac=%d %f %f %f %d\n",ac_id, lat, lon, h, utm_zone);
 
@@ -75,7 +75,7 @@ static void on_Gps(IvyClientPtr app, void *user_data, int argc, char *argv[])
 }
 
 
-int main ( int argc, char** argv) 
+int main ( int argc, char** argv)
 {
   udp_init();
 
@@ -86,9 +86,8 @@ int main ( int argc, char** argv)
   IvyBindMsg(on_Gps, NULL, "^(\\S*) GPS (\\S*) (\\S*) (\\S*) (\\S*) (\\S*) (\\S*) (\\S*) (\\S*) (\\S*) (\\S*) (\\S*)");
 
   IvyStart("127.255.255.255");
-  
+
   g_main_loop_run(ml);
 
   return 0;
 }
-
