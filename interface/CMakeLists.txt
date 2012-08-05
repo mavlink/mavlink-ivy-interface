@@ -28,7 +28,7 @@ INCLUDE_DIRECTORIES(
   ${GTHREAD2_MAIN_INCLUDE_DIR}
 )
 
-include_directories("${PROJECT_SOURCE_DIR}/../mavlink/include/common")
+include_directories("${PROJECT_SOURCE_DIR}/../mavlink/include/v1.0/common")
 include_directories("${uav_math_SOURCE_DIR}")
 
 add_executable (mavlink-ivy-interface ${interface_srcs} ${interface_incl} )

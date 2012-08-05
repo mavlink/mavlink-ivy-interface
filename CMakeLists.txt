@@ -13,7 +13,10 @@ PROJECT(mavlink-ivy-interface)
 
 cmake_minimum_required(VERSION 2.6)
 
-set(EXECUTABLE_OUTPUT_PATH ${mavlink-ivy-interface_SOURCE_DIR/bin})
+set( MAVLINK_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/../mavlink/include" )
+set( MAVLINK_TYPES_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/../mavlink/include/v1.0" )
+
+set(EXECUTABLE_OUTPUT_PATH ${mavlink-ivy-interface_SOURCE_DIR}/bin)
 
 
 #######################################################################
