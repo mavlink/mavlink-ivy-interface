@@ -5,6 +5,7 @@ all:
 
 clean:
 	rm -rf ./build
+	rm -rf ./bin
 
 run:
 	./build/interface/mavlink-ivy-interface

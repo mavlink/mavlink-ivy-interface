@@ -1,4 +1,9 @@
 build/
+bin/
 tools/pprz_msg_compiler/paparazzi_protocol_h.h
 paparazzi/ivy/c_ivy_client_example
 .DS_Store
+mavlink-ivy-interface
+templater
+pprz_reader
+pprz_msg_parser
