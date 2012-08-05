@@ -64,15 +64,10 @@ struct sockaddr_in gcAddr;
 
 
 
-int udp_init(void)
+int udp_init(char* target_ip)
 {	
-	char target_ip[100];
-	
 	sock = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);
 	struct sockaddr_in locAddr;
-	
-	// Change the target ip if parameter was given
-	strcpy(target_ip, "192.168.78.1");
 	
 	memset(&locAddr, 0, sizeof(locAddr));
 	locAddr.sin_family = AF_INET;

@@ -23,7 +23,7 @@ static void on_Attitude(IvyClientPtr app, void *user_data, int argc, char *argv[
   theta = atof(argv[3]);
   psi = atof(argv[2]);
 
-  printf("ATTITUDE ac=%d phi=%f theta=%f psi=%f\n",ac_id, phi, theta, psi);
+  fprintf(stderr, "ATTITUDE ac=%d phi=%f theta=%f psi=%f\n",ac_id, phi, theta, psi);
 
   udp_send(ac_id);
 }
@@ -68,7 +68,7 @@ static void on_Gps(IvyClientPtr app, void *user_data, int argc, char *argv[])
 */
         ecef.utm2llh(utm_north,utm_east,utm_z,utm_zone,&lat,&lon,&h);
 
-  printf("GPS ac=%d %f %f %f %d\n",ac_id, lat, lon, h, utm_zone);
+  fprintf(stderr, "GPS ac=%d %f %f %f %d\n",ac_id, lat, lon, h, utm_zone);
 
 
 //  udp_send();
@@ -77,7 +77,15 @@ static void on_Gps(IvyClientPtr app, void *user_data, int argc, char *argv[])
 
 int main ( int argc, char** argv)
 {
-  udp_init();
+  if (argc < 2)
+  {
+    fprintf(stderr, "USE: mavlink-ivy-interface IP \n");
+    return -1;
+  }
+
+  fprintf(stderr,"mavlink-ivy-interface forwarding to '%s' \n",argv[1]);
+
+  udp_init(argv[1]);
 
   GMainLoop *ml =  g_main_loop_new(NULL, FALSE);
 
