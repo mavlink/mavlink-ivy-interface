@@ -29,7 +29,7 @@ class Conversions
 public:
 	Conversions();
 	virtual ~Conversions(){};
-	
+
 	static void wgs2ecef(double wgs_north, double wgs_east, double h, double* ecef_x, double* ecef_y, double* ecef_z);	// Rounding error of +/- 5m
 	static void ecef2wgs(double ecef_x, double ecef_y, double ecef_z, double* wgs_lat, double* wgs_lon, double* h);
 	static double ecef2alt(double ecef_x, double ecef_y, double ecef_z);
@@ -51,7 +51,7 @@ public:
 	void velocity_ecef2tgp(float ecef_vx, float ecef_vy, float ecef_vz, float* tgp_vx, float* tgp_vy, float* tgp_vz);
 	void velocity_ecef_int_cms2tgp(int ecef_vx, int ecef_vy, int ecef_vz, float* tgp_vx, float* tgp_vy, float* tgp_vz);
 
-	
+
 
 	void setOriginEcef(double ecef_x, double ecef_y, double ecef_z);
 	void setOriginEcef_int_cm(int ecef_x, int ecef_y, int ecef_z);
@@ -73,7 +73,7 @@ private:
 
 //! @}
 
-#endif 
+#endif
 
 
 
