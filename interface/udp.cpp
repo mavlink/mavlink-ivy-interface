@@ -114,7 +114,7 @@ void udp_send(int ac_id)
 
     {
 		/*Send Heartbeat */
-		mavlink_msg_heartbeat_pack(ac_id, 200, &msg, MAV_TYPE_HELICOPTER, MAV_AUTOPILOT_GENERIC, MAV_MODE_GUIDED_ARMED, 0, MAV_STATE_ACTIVE);
+		mavlink_msg_heartbeat_pack(ac_id, 200, &msg, MAV_TYPE_GENERIC, MAV_AUTOPILOT_PPZ, MAV_MODE_GUIDED_ARMED, 0, MAV_STATE_ACTIVE);
 		len = mavlink_msg_to_send_buffer(buf, &msg);
 		bytes_sent = sendto(sock, buf, len, 0, (struct sockaddr*)&gcAddr, sizeof(struct sockaddr_in));
 		
