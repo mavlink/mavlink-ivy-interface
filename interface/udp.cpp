@@ -112,9 +112,10 @@ void udp_send(int ac_id)
 	int i = 0;
 	unsigned int temp = 0;	
 
+	printf("Send\n");
     {
 		/*Send Heartbeat */
-		mavlink_msg_heartbeat_pack(ac_id, 200, &msg, MAV_TYPE_GENERIC, MAV_AUTOPILOT_PPZ, MAV_MODE_GUIDED_ARMED, 0, MAV_STATE_ACTIVE);
+		mavlink_msg_heartbeat_pack(ac_id, 200, &msg, MAV_TYPE_FIXED_WING, MAV_AUTOPILOT_GENERIC, MAV_MODE_FLAG_STABILIZE_ENABLED|MAV_MODE_FLAG_GUIDED_ENABLED|MAV_MODE_FLAG_AUTO_ENABLED, 0, 4);
 		len = mavlink_msg_to_send_buffer(buf, &msg);
 		bytes_sent = sendto(sock, buf, len, 0, (struct sockaddr*)&gcAddr, sizeof(struct sockaddr_in));
 		
@@ -146,9 +147,9 @@ void udp_send(int ac_id)
 		bytes_sent = sendto(sock, buf, len, 0, (struct sockaddr*)&gcAddr, sizeof(struct sockaddr_in));
 		
 		/* Send Params */
-		mavlink_msg_param_value_pack(ac_id, 200, &msg, "EXTRA1", 1.23, MAVLINK_TYPE_FLOAT, 1, 0);
-		len = mavlink_msg_to_send_buffer(buf, &msg);
-		bytes_sent = sendto(sock, buf, len, 0, (struct sockaddr*)&gcAddr, sizeof(struct sockaddr_in));
+		//mavlink_msg_param_value_pack(ac_id, 200, &msg, "EXTRA1", 1.23, MAVLINK_TYPE_FLOAT, 1, 0);
+		//len = mavlink_msg_to_send_buffer(buf, &msg);
+		//bytes_sent = sendto(sock, buf, len, 0, (struct sockaddr*)&gcAddr, sizeof(struct sockaddr_in));
 
 
 		memset(buf, 0, BUFFER_LENGTH);
@@ -166,8 +167,15 @@ void udp_send(int ac_id)
 				printf("%02x ", (unsigned char)temp);
 				if (mavlink_parse_char(MAVLINK_COMM_0, buf[i], &msg, &status))
 				{
-					// Packet received
-					printf("\nReceived packet: SYS: %d, COMP: %d, LEN: %d, MSG ID: %d\n", msg.sysid, msg.compid, msg.len, msg.msgid);
+					switch (msg.msgid)
+					{
+					case MAVLINK_MSG_ID_HEARTBEAT:
+						printf("\nReceived HEARTBEAT from %d mode %d\n",msg.sysid, mavlink_msg_heartbeat_get_autopilot(&msg));
+						break;
+					default:
+						// Packet received
+						printf("\nReceived packet: SYS: %d, COMP: %d, LEN: %d, MSG ID: %d\n", msg.sysid, msg.compid, msg.len, msg.msgid);
+					}
 				}
 			}
 			printf("\n");

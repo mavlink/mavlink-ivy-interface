@@ -23,7 +23,7 @@ static void on_Attitude(IvyClientPtr app, void *user_data, int argc, char *argv[
   theta = atof(argv[3]);
   psi = atof(argv[2]);
 
-  fprintf(stderr, "ATTITUDE ac=%d phi=%f theta=%f psi=%f\n",ac_id, phi, theta, psi);
+  //fprintf(stderr, "ATTITUDE ac=%d phi=%f theta=%f psi=%f\n",ac_id, phi, theta, psi);
 
   udp_send(ac_id);
 }
@@ -68,7 +68,7 @@ static void on_Gps(IvyClientPtr app, void *user_data, int argc, char *argv[])
 */
         ecef.utm2llh(utm_north,utm_east,utm_z,utm_zone,&lat,&lon,&h);
 
-  fprintf(stderr, "GPS ac=%d %f %f %f %d\n",ac_id, lat, lon, h, utm_zone);
+  //fprintf(stderr, "GPS ac=%d %f %f %f %d\n",ac_id, lat, lon, h, utm_zone);
 
 
 //  udp_send();
