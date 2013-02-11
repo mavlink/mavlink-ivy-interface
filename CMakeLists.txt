@@ -11,6 +11,8 @@
 
 PROJECT(mavlink-ivy-interface)
 
+OPTION(USE_IVY "Compile using IVY. (disable to have tests only)" ON)
+
 cmake_minimum_required(VERSION 2.6)
 
 set( MAVLINK_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/../mavlink/include" )
@@ -39,9 +41,6 @@ endif(WIN32)
 set( CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" )
 
 FIND_PACKAGE(MAVLINK   REQUIRED)
-FIND_PACKAGE(IVY       REQUIRED)
-FIND_PACKAGE(GLIB2     REQUIRED)
-FIND_PACKAGE(GTHREAD2  REQUIRED)
 
 add_subdirectory (tools/templater)
 add_subdirectory (tools/tinyxml)
@@ -50,9 +49,14 @@ add_subdirectory (tools/pprz_msg_compiler)
 
 add_subdirectory (paparazzi)
 
-add_subdirectory (interface)
+add_subdirectory (test)
 
+if (USE_IVY)
 
+  FIND_PACKAGE(IVY       REQUIRED)
+  FIND_PACKAGE(GLIB2     REQUIRED)
+  FIND_PACKAGE(GTHREAD2  REQUIRED)
 
+  add_subdirectory (interface)
 
-
+endif (USE_IVY)
