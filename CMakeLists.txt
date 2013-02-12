@@ -47,7 +47,6 @@ add_subdirectory (tools/tinyxml)
 add_subdirectory (tools/math)
 add_subdirectory (tools/pprz_msg_compiler)
 
-add_subdirectory (paparazzi)
 
 add_subdirectory (test)
 
@@ -57,6 +56,7 @@ if (USE_IVY)
   FIND_PACKAGE(GLIB2     REQUIRED)
   FIND_PACKAGE(GTHREAD2  REQUIRED)
 
+  add_subdirectory (paparazzi)
   add_subdirectory (interface)
 
 endif (USE_IVY)
