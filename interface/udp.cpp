@@ -62,7 +62,7 @@ uint64_t microsSinceEpoch();
 int sock;
 struct sockaddr_in gcAddr; 
 
-
+#define COMP_ID 1
 
 int udp_init(char* target_ip)
 {	
@@ -115,14 +115,14 @@ void udp_send(int ac_id)
 	printf("Send\n");
     {
 		/*Send Heartbeat */
-		mavlink_msg_heartbeat_pack(ac_id, 200, &msg, MAV_TYPE_FIXED_WING, MAV_AUTOPILOT_GENERIC, MAV_MODE_FLAG_STABILIZE_ENABLED|MAV_MODE_FLAG_GUIDED_ENABLED|MAV_MODE_FLAG_AUTO_ENABLED, 0, 4);
+		mavlink_msg_heartbeat_pack(ac_id, COMP_ID, &msg, MAV_TYPE_FIXED_WING, MAV_AUTOPILOT_GENERIC, MAV_MODE_FLAG_STABILIZE_ENABLED|MAV_MODE_FLAG_GUIDED_ENABLED|MAV_MODE_FLAG_AUTO_ENABLED, 0, 4);
 		len = mavlink_msg_to_send_buffer(buf, &msg);
 		bytes_sent = sendto(sock, buf, len, 0, (struct sockaddr*)&gcAddr, sizeof(struct sockaddr_in));
 		
 		/* Send Status */
-		mavlink_msg_sys_status_pack(ac_id, 200, &msg, 0, 0, 0, 500, 11000, -1, -1, 0, 0, 0, 0, 0, 0);
+		mavlink_msg_sys_status_pack(ac_id, COMP_ID, &msg, 0, 0, 0, 500, 11000, -1, -1, 0, 0, 0, 0, 0, 0);
 		len = mavlink_msg_to_send_buffer(buf, &msg);
-		bytes_sent = sendto(sock, buf, len, 0, (struct sockaddr*)&gcAddr, sizeof (struct sockaddr_in));
+		//bytes_sent = sendto(sock, buf, len, 0, (struct sockaddr*)&gcAddr, sizeof (struct sockaddr_in));
 		
 		/* Send Local Position 
 		mavlink_msg_local_position_ned_pack(ac_id, 200, &msg, microsSinceEpoch(), 
@@ -133,21 +133,21 @@ void udp_send(int ac_id)
 		*/
 
 		/* Send Global Position */
-		lat_i = (lat * 1e7);
-		lon_i = (lon * 1e7);
-		h_i = h  * 1000.0;
-		mavlink_msg_global_position_int_pack(ac_id, 200, &msg, microsSinceEpoch(), 
+		lat_i = (lat[ac_id] * 1e7);
+		lon_i = (lon[ac_id] * 1e7);
+		h_i = h[ac_id]  * 1000.0;
+		mavlink_msg_global_position_int_pack(ac_id, COMP_ID, &msg, microsSinceEpoch(), 
 										lat_i, lon_i, h_i, h_i, 0, 0, 0, 0);
 		len = mavlink_msg_to_send_buffer(buf, &msg);
 		bytes_sent = sendto(sock, buf, len, 0, (struct sockaddr*)&gcAddr, sizeof(struct sockaddr_in));
 		
 		/* Send attitude */
-		mavlink_msg_attitude_pack(ac_id, 200, &msg, microsSinceEpoch(), phi, theta, psi, 0.01, 0.02, 0.03);
+		mavlink_msg_attitude_pack(ac_id, COMP_ID, &msg, microsSinceEpoch(), phi[ac_id], theta[ac_id], psi[ac_id], 0.01, 0.02, 0.03);
 		len = mavlink_msg_to_send_buffer(buf, &msg);
 		bytes_sent = sendto(sock, buf, len, 0, (struct sockaddr*)&gcAddr, sizeof(struct sockaddr_in));
 		
 		/* Send Params */
-		mavlink_msg_param_value_pack(ac_id, 200, &msg, "EXTRA1", 1.23, MAVLINK_TYPE_FLOAT, 1, 0);
+		mavlink_msg_param_value_pack(ac_id, COMP_ID, &msg, "EXTRA1", 1.23, MAVLINK_TYPE_FLOAT, 1, 0);
 		len = mavlink_msg_to_send_buffer(buf, &msg);
 		bytes_sent = sendto(sock, buf, len, 0, (struct sockaddr*)&gcAddr, sizeof(struct sockaddr_in));
 
@@ -170,7 +170,7 @@ void udp_send(int ac_id)
 					switch (msg.msgid)
 					{
 					case MAVLINK_MSG_ID_HEARTBEAT:
-						printf("\nReceived HEARTBEAT from %d mode %d\n",msg.sysid, mavlink_msg_heartbeat_get_autopilot(&msg));
+						printf("\nReceived HEARTBEAT from %d compid %d mode %d\n",msg.sysid, msg.compid, mavlink_msg_heartbeat_get_autopilot(&msg));
 						break;
 					default:
 						// Packet received

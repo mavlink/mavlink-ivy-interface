@@ -8,15 +8,11 @@
 #include "../interface/interface.h"
 #include "Conversions.h"
 
-int aircraft_id = 6;
+int aircraft_id = 2;
 
-float phi = 0.2f;
-float theta = 0.05f;
-float psi = 1.4f;
+float phi[256],theta[256],psi[256];
+double lat[256],lon[256],h[256];
 
-double lat = 51.1;
-double lon = 3.2;
-double h = 120.0;
 
 Conversions ecef;
 
@@ -39,13 +35,22 @@ int main ( int argc, char** argv)
 
   fprintf(stderr,"test-mavlink-ivy-interface forwarding to '%s' \n",argv[1]);
 
+  // dummy test data
+  phi[aircraft_id] = 0.2f;
+  theta[aircraft_id] = 0.05f;
+  psi[aircraft_id] = 1.4f;
+
+  lat[aircraft_id] = 51.1;
+  lon[aircraft_id] = 3.2;
+  h[aircraft_id] = 120.0;
+
   udp_init(argv[1]);
 
   for (int i=0;;i++)
   {
-    psi += 0.1;
-    if (psi > 6.28) psi = 0;
-    lat += 0.0001;
+    psi[aircraft_id] += 0.1;
+    if (psi[aircraft_id] > 6.28) psi[aircraft_id] = 0;
+    lat[aircraft_id] += 0.0001;
 #ifdef WIN32
     Sleep(1000);
 #else

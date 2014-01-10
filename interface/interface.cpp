@@ -10,8 +10,8 @@
 #include "interface.h"
 #include "Conversions.h"
 
-float phi, theta, psi;
-double lat,lon,h;
+float phi[256], theta[256], psi[256];
+double lat[256],lon[256],h[256];
 
 Conversions ecef;
 
@@ -19,9 +19,9 @@ static void on_Attitude(IvyClientPtr app, void *user_data, int argc, char *argv[
 {
   guint ac_id = atoi(argv[0]);
 
-  phi = atof(argv[1]);
-  theta = atof(argv[3]);
-  psi = atof(argv[2]);
+  phi[ac_id] = atof(argv[1]);
+  theta[ac_id] = atof(argv[3]);
+  psi[ac_id] = atof(argv[2]);
 
   //fprintf(stderr, "ATTITUDE ac=%d phi=%f theta=%f psi=%f\n",ac_id, phi, theta, psi);
 
@@ -66,7 +66,7 @@ static void on_Gps(IvyClientPtr app, void *user_data, int argc, char *argv[])
         utm_z = ((double) protocol->GPS.pprz_alt) / 1000.0;
         utm_zone = protocol->GPS.pprz_utm_zone;
 */
-        ecef.utm2llh(utm_north,utm_east,utm_z,utm_zone,&lat,&lon,&h);
+        ecef.utm2llh(utm_north,utm_east,utm_z,utm_zone,&lat[ac_id],&lon[ac_id],&h[ac_id]);
 
   //fprintf(stderr, "GPS ac=%d %f %f %f %d\n",ac_id, lat, lon, h, utm_zone);
 
